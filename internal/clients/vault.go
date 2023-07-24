@@ -15,7 +15,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/terraform"
 
-	"github.com/upbound/upjet-provider-template/apis/v1beta1"
+	"github.com/stakater/provider-vault/apis/v1beta1"
 )
 
 const (
@@ -24,7 +24,7 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal vault credentials as JSON"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -63,10 +63,37 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{
+			"address": creds["address"],
+			"add_address_to_env": creds["add_address_to_env"],
+			"token": creds["token"],
+			"token_name": creds["token_name"],
+			"ca_cert_file": creds["ca_cert_file"],
+			"ca_cert_dir": creds["ca_cert_dir"],
+			"auth_login_userpass": creds["auth_login_userpass"],
+			"auth_login_aws": creds["auth_login_aws"],
+			"auth_login_cert": creds["auth_login_cert"],
+			"auth_login_gcp": creds["auth_login_gcp"],
+			"auth_login_kerberos": creds["auth_login_kerberos"],
+			"auth_login_radius": creds["auth_login_radius"],
+			"auth_login_oci": creds["auth_login_oci"],
+			"auth_login_oidc": creds["auth_login_oidc"],
+			"auth_login_jwt": creds["auth_login_jwt"],
+			"auth_login_azure": creds["auth_login_azure"],
+			"auth_login_token_file": creds["auth_login_token_file"],
+			"auth_login": creds["auth_login"],
+			"client_auth": creds["client_auth"],
+			"skip_tls_verify": creds["skip_tls_verify"],
+			"tls_server_name": creds["tls_server_name"],
+			"skip_child_token": creds["skip_child_token"],
+			"max_lease_ttl_seconds": creds["max_lease_ttl_seconds"],
+			"max_retries": creds["max_retries"],
+			"max_retries_ccc": creds["max_retries_ccc"],
+			"namespace": creds["namespace"],
+			"skip_get_vault_version": creds["skip_get_vault_version"],
+			"vault_version_override": creds["vault_version_override"],
+
+		}
 		return ps, nil
 	}
 }
